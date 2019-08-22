@@ -1,0 +1,83 @@
+import {getManager} from "typeorm";
+import {User} from "../entity/User";
+import UserRepository from "../dal/UserRepository";
+import {getCustomRepository} from "typeorm";
+import errorCodes from '../utils/response/errors';
+import LoginForm from "../entity/LoginForm";
+import {Role} from "../entity/Role";
+import {IUser} from "../models/entity/IUser";
+import UserError from "../utils/UserError";
+import * as bcrypt from 'bcryptjs';
+const jwt = require('jsonwebtoken');
+
+export default class AuthBll {
+    public userDal: UserRepository;
+
+    constructor() {
+        this.userDal = getCustomRepository(UserRepository);
+    }
+
+    public async register(model: IUser): Promise<IUser> {
+        let userModel = new User();
+
+        userModel.load(model);
+
+        let user: IUser = await this.userDal.findByEmail(userModel.email);
+
+        if (user.hasOwnProperty('id'))
+            throw new UserError(errorCodes.USER_ALREADY_EXISTS);
+
+        userModel.password = bcrypt.hashSync(model.password, 8);
+
+        await getManager().transaction(async transactionalEntityManager => {
+
+            userModel.role = model.role.map(roleId => {
+                return new Role(+roleId);
+            });
+
+            await transactionalEntityManager.save(userModel);
+        });
+
+        let payload = {
+            id: model.id
+        };
+
+        model.access_token = jwt.sign(payload, process.env.AUTH_SECRET, {
+                expiresIn: 30 * 86400 // expires in 30 days
+            }
+        );
+
+        model.id = userModel.id;
+
+        return model;
+    }
+
+    public async login(model: LoginForm): Promise<IUser> {
+        let user: IUser = await this.userDal.findByEmail(model.email);
+
+        if (Object.keys(user).length === 0)
+            throw new UserError(errorCodes.USER_NOT_FOUND)
+
+        let passwordIsValid = bcrypt.compareSync(model.password, user.password);
+
+        if (!passwordIsValid)
+            throw new UserError(errorCodes.INVALID_AUTHENTICATION_CREDENTIALS)
+
+        let payload = ({
+            id: user.id
+        });
+
+        user.access_token = await jwt.sign(payload, process.env.AUTH_SECRET, {
+            expiresIn: 30 * 86400 // expires in 30 days
+        });
+
+        return user;
+    }
+
+    public async me(model: IUser): Promise<IUser> {
+
+        let user = await this.userDal.findByEmail(model.email);
+
+        return user;
+    }
+}
