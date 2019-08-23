@@ -1,5 +1,5 @@
 import {EntityRepository, Repository, createConnection, getCustomRepository} from "typeorm";
-import {User} from "../entity/User";
+import {User} from "../entity/user/User";
 import {IUser} from "../models/entity/IUser";
 import {ON_OFF_STATUS} from "../config/constant";
 
@@ -23,7 +23,7 @@ export default class UserRepository extends Repository<IUser> {
             },
             {
                 select: [ 'id', 'first_name' ],
-                relations: ["role"]
+                // relations: ["role"]
             }
         ) || {} as IUser;
     }

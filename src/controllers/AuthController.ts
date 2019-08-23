@@ -1,7 +1,7 @@
 import AuthBll from '../bll/AuthBll';
 import BaseController from "./BaseController";
 import LoginForm from "../entity/LoginForm";
-import {User} from "../entity/User";
+import {User} from "../entity/user/User";
 import Authentication from "../decorators/auth/Authentication";
 import Rbac from "../decorators/auth/Rbac";
 import {IUser} from "../models/entity/IUser";
@@ -22,7 +22,7 @@ export default class AuthController extends BaseController {
     }
 
     @Authentication
-    @Rbac([2, 5])
+    // @Rbac([2, 5])
     public async me(args: any, context: IContext): Promise<any> {
 
         try {
@@ -49,7 +49,7 @@ export default class AuthController extends BaseController {
      * @param context
      */
     @Authentication
-    @Rbac([USER_ROLES.ADMIN])
+    // @Rbac([USER_ROLES.VIEWER, USER_ROLES.EXPERT, USER_ROLES.ADMIN])
     public async actionRegister(args: IUser, context: IContext) {
         try {
             let model = new User();
@@ -57,6 +57,8 @@ export default class AuthController extends BaseController {
             model.load(args);
 
             this.validate(model, model.schema());
+
+            // console.log('user model ', model)
 
             return await this.bll.register(model);
 

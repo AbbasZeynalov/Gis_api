@@ -1,4 +1,4 @@
-import {IRole} from "../../models/entity/IRole";
+import {IUserGroup} from "../../models/entity/IUserGroup";
 import Logger from "../../utils/logger";
 import {UnauthorizedError} from "type-graphql";
 
@@ -14,7 +14,7 @@ export default function Rbac(rolesId: number[]) {
                     let ctx = args[1];
                     let auth = false;
 
-                    ctx.req.user.role.forEach((role: IRole) => {
+                    ctx.req.user.role.forEach((role: IUserGroup) => {
                         if(rolesId.includes(role.id))
                             auth = true;
                     });

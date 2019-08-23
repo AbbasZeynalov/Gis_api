@@ -1,5 +1,5 @@
 import {ON_OFF_STATUS} from "../../config/constant";
-import {IRole} from "./IRole";
+import {IUserGroup} from "./IUserGroup";
 import {IEntityValidation} from "../validation/IEntity";
 
 export interface IUser {
@@ -15,5 +15,5 @@ export interface IUser {
     created_date: Date
     updated_date: Date
     active: ON_OFF_STATUS
-    role: IRole[]
+    userPermissions: any
 }

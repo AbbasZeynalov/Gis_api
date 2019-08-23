@@ -13,7 +13,7 @@ module.exports = makeExecutableSchema({
                 email: String!, 
                 password: String!, 
                 password_repeat: String!,
-                role: [Int!]
+                userPermissions: [PermissionInput!]
             ): Me!
             
             login (email: String!, password: String!): Me!
@@ -24,6 +24,10 @@ module.exports = makeExecutableSchema({
             last_name: String!, 
             email: String!, 
             access_token: String!
+        }
+        input PermissionInput {
+            entity_id: Int!,
+            entity_operations: [Int!]
         }
     `
 });

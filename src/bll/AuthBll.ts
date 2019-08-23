@@ -1,13 +1,15 @@
 import {getManager} from "typeorm";
-import {User} from "../entity/User";
+import {User} from "../entity/user/User";
 import UserRepository from "../dal/UserRepository";
 import {getCustomRepository} from "typeorm";
 import errorCodes from '../utils/response/errors';
 import LoginForm from "../entity/LoginForm";
-import {Role} from "../entity/Role";
 import {IUser} from "../models/entity/IUser";
 import UserError from "../utils/UserError";
 import * as bcrypt from 'bcryptjs';
+import {UserPermissions} from "../entity/user/UserPermissions";
+import {PermissionEntity} from "../entity/user/PermissionEntity";
+import {PermissionOperation} from "../entity/user/PermissionOperation";
 const jwt = require('jsonwebtoken');
 
 export default class AuthBll {
@@ -18,24 +20,37 @@ export default class AuthBll {
     }
 
     public async register(model: IUser): Promise<IUser> {
-        let userModel = new User();
 
-        userModel.load(model);
-
-        let user: IUser = await this.userDal.findByEmail(userModel.email);
+        let user: IUser = await this.userDal.findByEmail(model.email);
 
         if (user.hasOwnProperty('id'))
             throw new UserError(errorCodes.USER_ALREADY_EXISTS);
 
-        userModel.password = bcrypt.hashSync(model.password, 8);
+        model.password = bcrypt.hashSync(model.password, 8);
 
         await getManager().transaction(async transactionalEntityManager => {
 
-            userModel.role = model.role.map(roleId => {
-                return new Role(+roleId);
-            });
+            await transactionalEntityManager.save(model);
 
-            await transactionalEntityManager.save(userModel);
+            model.userPermissions.forEach((permission: any) => {
+
+                permission.entity_operations.forEach(async (operation: number) => {
+
+                    let modelPermission = new UserPermissions();
+
+                    //@ts-ignore
+                    modelPermission.user = model;
+
+                    modelPermission.permissionEntity = new PermissionEntity(permission.entity_id);
+                    modelPermission.permissionOperation = new PermissionOperation(operation);
+
+                    await transactionalEntityManager.save(modelPermission);
+                })
+            });
+            // userModel.role = model.role.map(roleId => {
+            //     return new UserGroup(+roleId);
+            // });
+
         });
 
         let payload = {
@@ -46,8 +61,6 @@ export default class AuthBll {
                 expiresIn: 30 * 86400 // expires in 30 days
             }
         );
-
-        model.id = userModel.id;
 
         return model;
     }

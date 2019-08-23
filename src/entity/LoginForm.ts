@@ -1,8 +1,9 @@
 import {ILogin} from "../models/forms/auth/ILogin";
+import {IEntityValidation} from "../models/validation/IEntity";
 
 const Joi = require('joi');
 
-export default class LoginForm implements ILogin
+export default class LoginForm implements ILogin, IEntityValidation
 {
     email: string;
     password: string;

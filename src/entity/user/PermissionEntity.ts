@@ -1,12 +1,12 @@
 import {
     Column,
-    Entity,
+    Entity, JoinColumn,
     PrimaryGeneratedColumn,
 } from "typeorm";
-import {IRole} from "../models/entity/IRole";
+
 
 @Entity()
-export class Role implements IRole {
+export class PermissionEntity {
 
     constructor(id?: number) {
         id && (this.id = id);
@@ -16,5 +16,8 @@ export class Role implements IRole {
     id: number;
 
     @Column()
-    role_name: string;
+    name: string;
+
+    @Column()
+    table_name: string;
 }
