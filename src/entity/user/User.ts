@@ -15,16 +15,16 @@ import {IEntityValidation} from "../../models/validation/IEntity";
 import {UserPermissions} from "./UserPermissions";
 import {PermissionEntity} from "./PermissionEntity";
 import {PermissionOperation} from "./PermissionOperation";
+import {CustomBaseEntity} from "../CustomBaseEntity";
 
 @Entity()
-export class User implements IUser, IEntityValidation {
+export class User extends CustomBaseEntity implements IUser, IEntityValidation {
+
 
     constructor(id?: number) {
+        super();
         id && (this.id = id);
     }
-
-    @PrimaryGeneratedColumn()
-    id: number;
 
     @Column()
     user_name: string;
@@ -46,24 +46,12 @@ export class User implements IUser, IEntityValidation {
 
     password_repeat?: string;
 
-    @CreateDateColumn()
-    created_date: Date;
-
-    @UpdateDateColumn()
-    updated_date: Date;
-
-    @Column({
-        type: "enum",
-        enum: [ON_OFF_STATUS.OFF, ON_OFF_STATUS.ON],
-        default: ON_OFF_STATUS.ON
-    })
-    active: ON_OFF_STATUS;
-
     @OneToMany(type => UserPermissions, userPermissions => userPermissions.user)
     userPermissions: UserPermissions;
 
     load(obj: IUser) {
 
+        this.user_name = obj.user_name;
         this.first_name = obj.first_name;
         this.last_name = obj.last_name;
         this.email = obj.email;
@@ -76,6 +64,7 @@ export class User implements IUser, IEntityValidation {
 
     schema() {
         return Joi.object().keys({
+            user_name: Joi.string().alphanum().min(3).max(255).required(),
             first_name: Joi.string().alphanum().min(3).max(255).required(),
             last_name: Joi.string().alphanum().min(3).max(255).required(),
             email: Joi.string().email({minDomainAtoms: 2}).required(),
@@ -85,3 +74,4 @@ export class User implements IUser, IEntityValidation {
         });
     }
 }
+

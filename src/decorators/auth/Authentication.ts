@@ -24,6 +24,8 @@ export default function Authentication(target: BaseController, name: string, des
 
                 ctx.req.user = await userRepository.findById(userJWT.id);
 
+                // console.log('user -------------------------- ', ctx.req.user)
+
                 return original.apply(this, args);
 
             } catch (e) {

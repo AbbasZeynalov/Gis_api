@@ -3,8 +3,13 @@ import * as cors from "cors";
 import * as helmet from "helmet";
 import * as bodyParser from "body-parser";
 import "reflect-metadata";
-import {createConnection} from "typeorm";
+import {createConnection, getCustomRepository, getManager, getRepository} from "typeorm";
 import GraphqlHttp from "./graphql/root/GraphqlHttp";
+import {PermissionEntity} from "./entity/user/PermissionEntity";
+import {PermissionOperation} from "./entity/user/PermissionOperation";
+import {Request} from "express";
+import {IRequest} from "./models/graphql/IGraphql";
+import {AuthPermission, settings} from "./components/settings/AuthPermission";
 
 class App {
 
@@ -22,7 +27,7 @@ class App {
 
         await createConnection();
 
-        this.app.use('/graphql', cors(), GraphqlHttp());
+        this.app.use('/graphql', cors(), AuthPermission, GraphqlHttp());
     }
 
     private config(): void {

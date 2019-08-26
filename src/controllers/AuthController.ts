@@ -8,6 +8,7 @@ import {IUser} from "../models/entity/IUser";
 import {IContext} from "../models/graphql/IGraphql";
 import {USER_ROLES} from "../config/constant";
 import {ILogin} from "../models/forms/auth/ILogin";
+import {settings} from "../components/settings/AuthPermission";
 
 export default class AuthController extends BaseController {
     protected bll: AuthBll;
@@ -26,7 +27,6 @@ export default class AuthController extends BaseController {
     public async me(args: any, context: IContext): Promise<any> {
 
         try {
-            console.log('f user: ', context.req.user);
 
             return {
                 id: 11,
@@ -38,7 +38,6 @@ export default class AuthController extends BaseController {
 
         } catch (e) {
 
-            console.log('me: C ', e);
             this.logger.error(e);
         }
     }
@@ -49,16 +48,17 @@ export default class AuthController extends BaseController {
      * @param context
      */
     @Authentication
-    // @Rbac([USER_ROLES.VIEWER, USER_ROLES.EXPERT, USER_ROLES.ADMIN])
+    // @Rbac(permission.entity.user = 3, permission.operation.create = 1)
     public async actionRegister(args: IUser, context: IContext) {
+
+        console.log('Serrings:  ',settings);
+
         try {
             let model = new User();
 
             model.load(args);
 
             this.validate(model, model.schema());
-
-            // console.log('user model ', model)
 
             return await this.bll.register(model);
 

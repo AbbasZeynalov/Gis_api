@@ -8,49 +8,36 @@ import {IUser} from "../models/entity/IUser";
 import UserError from "../utils/UserError";
 import * as bcrypt from 'bcryptjs';
 import {UserPermissions} from "../entity/user/UserPermissions";
-import {PermissionEntity} from "../entity/user/PermissionEntity";
-import {PermissionOperation} from "../entity/user/PermissionOperation";
+import UserPermissionsRepository from "../dal/UserPermissionsRepository";
 const jwt = require('jsonwebtoken');
 
 export default class AuthBll {
     public userDal: UserRepository;
+    public userPermissionDal: UserPermissionsRepository;
 
     constructor() {
         this.userDal = getCustomRepository(UserRepository);
+        this.userPermissionDal = getCustomRepository(UserPermissionsRepository);
     }
 
     public async register(model: IUser): Promise<IUser> {
 
-        let user: IUser = await this.userDal.findByEmail(model.email);
+        let user: IUser = await this.userDal.findByUserName(model.user_name);
 
         if (user.hasOwnProperty('id'))
             throw new UserError(errorCodes.USER_ALREADY_EXISTS);
 
         model.password = bcrypt.hashSync(model.password, 8);
 
+        let modelPermission = new UserPermissions();
+
         await getManager().transaction(async transactionalEntityManager => {
 
             await transactionalEntityManager.save(model);
 
-            model.userPermissions.forEach((permission: any) => {
+            let permission = modelPermission.load(model);
 
-                permission.entity_operations.forEach(async (operation: number) => {
-
-                    let modelPermission = new UserPermissions();
-
-                    //@ts-ignore
-                    modelPermission.user = model;
-
-                    modelPermission.permissionEntity = new PermissionEntity(permission.entity_id);
-                    modelPermission.permissionOperation = new PermissionOperation(operation);
-
-                    await transactionalEntityManager.save(modelPermission);
-                })
-            });
-            // userModel.role = model.role.map(roleId => {
-            //     return new UserGroup(+roleId);
-            // });
-
+            await this.userPermissionDal.saveUserPermissions(permission, transactionalEntityManager);
         });
 
         let payload = {
@@ -66,7 +53,7 @@ export default class AuthBll {
     }
 
     public async login(model: LoginForm): Promise<IUser> {
-        let user: IUser = await this.userDal.findByEmail(model.email);
+        let user: IUser = await this.userDal.findByUserName(model.user_name);
 
         if (Object.keys(user).length === 0)
             throw new UserError(errorCodes.USER_NOT_FOUND)
@@ -89,7 +76,7 @@ export default class AuthBll {
 
     public async me(model: IUser): Promise<IUser> {
 
-        let user = await this.userDal.findByEmail(model.email);
+        let user = await this.userDal.findByUserName(model.user_name);
 
         return user;
     }

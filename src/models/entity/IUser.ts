@@ -1,9 +1,11 @@
 import {ON_OFF_STATUS} from "../../config/constant";
 import {IUserGroup} from "./IUserGroup";
 import {IEntityValidation} from "../validation/IEntity";
+import {ICustomBaseEntity} from "./ICustomBaseEntity";
+import {PermissionOperation} from "../../entity/user/PermissionOperation";
+import {PermissionEntity} from "../../entity/user/PermissionEntity";
 
-export interface IUser {
-    id: number
+export interface IUser extends ICustomBaseEntity {
     user_name: string
     first_name: string
     last_name: string
@@ -12,8 +14,12 @@ export interface IUser {
     password: string
     password_repeat?: string
     access_token?: string
-    created_date: Date
-    updated_date: Date
-    active: ON_OFF_STATUS
     userPermissions: any
+}
+
+export interface IUserPermissions {
+    id: number;
+    user: IUser;
+    permissionOperation: PermissionOperation;
+    permissionEntity: PermissionEntity;
 }

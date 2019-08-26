@@ -6,10 +6,10 @@ import {ON_OFF_STATUS} from "../config/constant";
 @EntityRepository(User)
 export default class UserRepository extends Repository<IUser> {
 
-    async findByEmail(email: string): Promise<IUser> {
+    async findByUserName(userName: string): Promise<IUser> {
 
         return await this.findOne({
-            email: email,
+            user_name: userName,
             active: ON_OFF_STATUS.ON
         }) || {} as IUser;
     }
@@ -22,8 +22,8 @@ export default class UserRepository extends Repository<IUser> {
                 active: ON_OFF_STATUS.ON
             },
             {
-                select: [ 'id', 'first_name' ],
-                // relations: ["role"]
+                select: ['id'],
+                relations: ["userPermissions", "userPermissions.permissionOperation", "userPermissions.permissionEntity",]
             }
         ) || {} as IUser;
     }

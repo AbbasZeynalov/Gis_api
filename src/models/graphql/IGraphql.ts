@@ -11,6 +11,9 @@ export interface IContext {
     res: Response
 }
 
-interface IRequest extends Request {
-    user?: IUser
+export interface IRequest extends Request {
+    user?: IUser,
+    settings?: {
+        permissions: any
+    }
 }

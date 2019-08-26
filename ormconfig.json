@@ -6,7 +6,7 @@
   "password": "",
   "database": "gis",
   "synchronize": true,
-  "logging": true,
+  "logging": false,
   "entities": [
     "src/entity/**/*.ts"
   ],
@@ -15,6 +15,7 @@
   ],
   "subscribers": [
     "src/subscriber/**/*.ts"
-  ]
+  ],
+  "autoSchemaSync": false
 }
 

@@ -5,11 +5,11 @@ const Joi = require('joi');
 
 export default class LoginForm implements ILogin, IEntityValidation
 {
-    email: string;
+    user_name: string;
     password: string;
 
     load(obj: ILogin) {
-        this.email = obj.email;
+        this.user_name = obj.user_name;
         this.password = obj.password;
 
         return this;
@@ -17,7 +17,7 @@ export default class LoginForm implements ILogin, IEntityValidation
 
     schema() {
         return Joi.object().keys({
-            email: Joi.string().email({ minDomainAtoms: 2 }).required(),
+            user_name: Joi.string().alphanum().min(3).max(255).required(),
             password: Joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).required()
         });
     }
