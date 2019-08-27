@@ -3,7 +3,6 @@ import { GraphQLError } from "graphql";
 import * as graphqlHTTP from "express-graphql";
 
 // Custom imports
-import inputValidation from "../../utils/response/httpResponse";
 import { IsJsonString } from "../../utils/JsonHelper";
 import MergeSchema from "../schemas";
 import GraphqlRoot from "./GraphqlRoot";

@@ -13,7 +13,7 @@ export interface IContext {
 
 export interface IRequest extends Request {
     user?: IUser,
-    settings?: {
-        permissions: any
-    }
+    // settings?: {
+    //     permissions: any
+    // }
 }

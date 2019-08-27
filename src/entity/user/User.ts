@@ -1,20 +1,12 @@
 import {
     Column,
-    CreateDateColumn,
     Entity,
-    JoinTable,
-    ManyToMany, OneToMany,
-    PrimaryGeneratedColumn,
-    UpdateDateColumn
+    OneToMany,
 } from "typeorm";
-import {ON_OFF_STATUS} from "../../config/constant";
-import {UserGroup} from "./UserGroup";
 import {IUser} from "../../models/entity/IUser";
 import * as Joi from 'joi';
 import {IEntityValidation} from "../../models/validation/IEntity";
 import {UserPermissions} from "./UserPermissions";
-import {PermissionEntity} from "./PermissionEntity";
-import {PermissionOperation} from "./PermissionOperation";
 import {CustomBaseEntity} from "../CustomBaseEntity";
 
 @Entity()

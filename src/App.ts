@@ -3,13 +3,9 @@ import * as cors from "cors";
 import * as helmet from "helmet";
 import * as bodyParser from "body-parser";
 import "reflect-metadata";
-import {createConnection, getCustomRepository, getManager, getRepository} from "typeorm";
+import {createConnection} from "typeorm";
 import GraphqlHttp from "./graphql/root/GraphqlHttp";
-import {PermissionEntity} from "./entity/user/PermissionEntity";
-import {PermissionOperation} from "./entity/user/PermissionOperation";
-import {Request} from "express";
-import {IRequest} from "./models/graphql/IGraphql";
-import {AuthPermission, settings} from "./components/settings/AuthPermission";
+import {AuthPermission} from "./components/settings/AuthPermission";
 
 class App {
 

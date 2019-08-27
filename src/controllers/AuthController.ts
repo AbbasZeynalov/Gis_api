@@ -3,12 +3,11 @@ import BaseController from "./BaseController";
 import LoginForm from "../entity/LoginForm";
 import {User} from "../entity/user/User";
 import Authentication from "../decorators/auth/Authentication";
-import Rbac from "../decorators/auth/Rbac";
 import {IUser} from "../models/entity/IUser";
 import {IContext} from "../models/graphql/IGraphql";
-import {USER_ROLES} from "../config/constant";
 import {ILogin} from "../models/forms/auth/ILogin";
-import {settings} from "../components/settings/AuthPermission";
+import Rbac from "../decorators/auth/Rbac";
+import {AUTH_ENTITIES, AUTH_OPERATIONS} from "../config/constant";
 
 export default class AuthController extends BaseController {
     protected bll: AuthBll;
@@ -48,11 +47,11 @@ export default class AuthController extends BaseController {
      * @param context
      */
     @Authentication
-    // @Rbac(permission.entity.user = 3, permission.operation.create = 1)
+    @Rbac({
+        [AUTH_ENTITIES.PARCEL]: [AUTH_OPERATIONS.CREATE, AUTH_OPERATIONS.DELETE],
+        [AUTH_ENTITIES.USER]: [AUTH_OPERATIONS.CREATE]
+    })
     public async actionRegister(args: IUser, context: IContext) {
-
-        console.log('Serrings:  ',settings);
-
         try {
             let model = new User();
 

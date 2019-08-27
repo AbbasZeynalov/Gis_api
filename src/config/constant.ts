@@ -1,8 +1,13 @@
-export enum USER_ROLES {
-    VIEWER = 1,
-    ENGINEER = 2,
-    EXPERT = 3,
-    ADMIN = 10
+export enum AUTH_ENTITIES {
+    PARCEL = 1,
+    BUILDING = 2,
+    USER = 3
+}
+
+export enum AUTH_OPERATIONS {
+    CREATE = 1,
+    UPDATE = 2,
+    DELETE = 3
 }
 
 export enum ON_OFF_STATUS {

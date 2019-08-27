@@ -1,14 +1,11 @@
 import {
-    Column,
     Entity, JoinColumn, ManyToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
-import {IUserGroup} from "../../models/entity/IUserGroup";
 import {User} from "./User";
-import {UserGroup} from "./UserGroup";
 import {PermissionOperation} from "./PermissionOperation";
 import {PermissionEntity} from "./PermissionEntity";
-import {IUser, IUserPermissions} from "../../models/entity/IUser";
+import {IRequestUserPermissions, IUser, IUserPermissions} from "../../models/entity/IUser";
 
 @Entity()
 export class UserPermissions {
@@ -32,7 +29,7 @@ export class UserPermissions {
 
         let permissions: IUserPermissions[] = [];
 
-        user.userPermissions.forEach((permission: any) => {
+        user.userPermissions.forEach((permission: IRequestUserPermissions) => {
 
             permission.entity_operations.forEach((operation: number) => {
 

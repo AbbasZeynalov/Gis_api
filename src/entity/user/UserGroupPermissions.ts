@@ -1,6 +1,5 @@
 import {
-    Column,
-    Entity, JoinColumn, ManyToOne, OneToMany,
+    Entity, JoinColumn, ManyToOne,
     PrimaryGeneratedColumn,
 } from "typeorm";
 import {IUserGroup} from "../../models/entity/IUserGroup";

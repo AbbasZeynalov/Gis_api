@@ -4,6 +4,7 @@ import {IEntityValidation} from "../validation/IEntity";
 import {ICustomBaseEntity} from "./ICustomBaseEntity";
 import {PermissionOperation} from "../../entity/user/PermissionOperation";
 import {PermissionEntity} from "../../entity/user/PermissionEntity";
+import {UserPermissions} from "../../entity/user/UserPermissions";
 
 export interface IUser extends ICustomBaseEntity {
     user_name: string
@@ -22,4 +23,9 @@ export interface IUserPermissions {
     user: IUser;
     permissionOperation: PermissionOperation;
     permissionEntity: PermissionEntity;
+}
+
+export interface IRequestUserPermissions {
+    entity_id: number,
+    entity_operations: number[]
 }
