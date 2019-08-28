@@ -8,13 +8,16 @@ import {IContext} from "../models/graphql/IGraphql";
 import {ILogin} from "../models/forms/auth/ILogin";
 import Rbac from "../decorators/auth/Rbac";
 import {AUTH_ENTITIES, AUTH_OPERATIONS} from "../config/constant";
+import {getCustomRepository} from "typeorm";
+import UserRepository from "../dal/UserRepository";
+import UserPermissionsRepository from "../dal/UserPermissionsRepository";
 
 export default class AuthController extends BaseController {
     protected bll: AuthBll;
 
     constructor() {
         super();
-        this.bll = new AuthBll();
+        this.bll = new AuthBll(getCustomRepository(UserRepository), getCustomRepository(UserPermissionsRepository));
 
         this.me = this.me.bind(this);
         this.actionLogin = this.actionLogin.bind(this);

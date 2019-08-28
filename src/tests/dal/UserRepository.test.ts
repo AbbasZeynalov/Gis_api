@@ -18,14 +18,14 @@ describe('UserRepository ', async  () => {
 
     it('should return empty', async () => {
 
-        const result = await userRepo.findByEmail('nonExistsUser@sssss.com');
+        const result = await userRepo.findByUserName('xxxxxxxx');
 
         assert.deepEqual(result, {});
     });
 
     it('should return user', async () => {
 
-        const result = await userRepo.findByEmail('admin@admin.com');
+        const result = await userRepo.findByUserName('abbas');
 
         assert.property(result, 'id');
         assert.property(result, 'first_name');

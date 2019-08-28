@@ -1,7 +1,5 @@
 import {getManager} from "typeorm";
-import {User} from "../entity/user/User";
 import UserRepository from "../dal/UserRepository";
-import {getCustomRepository} from "typeorm";
 import errorCodes from '../utils/response/errors';
 import LoginForm from "../entity/LoginForm";
 import {IUser} from "../models/entity/IUser";
@@ -9,15 +7,17 @@ import UserError from "../utils/UserError";
 import * as bcrypt from 'bcryptjs';
 import {UserPermissions} from "../entity/user/UserPermissions";
 import UserPermissionsRepository from "../dal/UserPermissionsRepository";
+import {ILogin} from "../models/forms/auth/ILogin";
+
 const jwt = require('jsonwebtoken');
 
 export default class AuthBll {
     public userDal: UserRepository;
     public userPermissionDal: UserPermissionsRepository;
 
-    constructor() {
-        this.userDal = getCustomRepository(UserRepository);
-        this.userPermissionDal = getCustomRepository(UserPermissionsRepository);
+    constructor(UserRepository: UserRepository, UserPermissionsRepository: UserPermissionsRepository) {
+        this.userDal = UserRepository;
+        this.userPermissionDal = UserPermissionsRepository;
     }
 
     public async register(model: IUser): Promise<IUser> {
@@ -52,8 +52,9 @@ export default class AuthBll {
         return model;
     }
 
-    public async login(model: LoginForm): Promise<IUser> {
+    public async login(model: ILogin): Promise<IUser> {
         let user: IUser = await this.userDal.findByUserName(model.user_name);
+
 
         if (Object.keys(user).length === 0)
             throw new UserError(errorCodes.USER_NOT_FOUND)
