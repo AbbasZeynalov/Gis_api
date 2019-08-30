@@ -1,6 +1,6 @@
 import {IEntityValidation} from "../../validation/IEntity";
 
 export interface ILogin extends IEntityValidation{
-    user_name: string
+    username: string
     password: string
 }

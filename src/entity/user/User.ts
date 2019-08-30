@@ -19,13 +19,13 @@ export class User extends CustomBaseEntity implements IUser, IEntityValidation {
     }
 
     @Column()
-    user_name: string;
+    username: string;
 
     @Column()
-    first_name: string;
+    firstname: string;
 
     @Column()
-    last_name: string;
+    lastname: string;
 
     @Column()
     patronymic: string;
@@ -43,9 +43,9 @@ export class User extends CustomBaseEntity implements IUser, IEntityValidation {
 
     load(obj: IUser) {
 
-        this.user_name = obj.user_name;
-        this.first_name = obj.first_name;
-        this.last_name = obj.last_name;
+        this.username = obj.username;
+        this.firstname = obj.firstname;
+        this.lastname = obj.lastname;
         this.email = obj.email;
         this.password = obj.password;
         this.password_repeat = obj.password_repeat;
@@ -56,9 +56,9 @@ export class User extends CustomBaseEntity implements IUser, IEntityValidation {
 
     schema() {
         return Joi.object().keys({
-            user_name: Joi.string().alphanum().min(3).max(255).required(),
-            first_name: Joi.string().alphanum().min(3).max(255).required(),
-            last_name: Joi.string().alphanum().min(3).max(255).required(),
+            username: Joi.string().alphanum().min(3).max(255).required(),
+            firstname: Joi.string().alphanum().min(3).max(255).required(),
+            lastname: Joi.string().alphanum().min(3).max(255).required(),
             email: Joi.string().email({minDomainAtoms: 2}).required(),
             password: Joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).required(),
             password_repeat: Joi.string().regex(/^[a-zA-Z0-9]{6,30}$/).required(),

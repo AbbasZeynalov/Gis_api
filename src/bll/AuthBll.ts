@@ -22,7 +22,7 @@ export default class AuthBll {
 
     public async register(model: IUser): Promise<IUser> {
 
-        let user: IUser = await this.userDal.findByUserName(model.user_name);
+        let user: IUser = await this.userDal.findByUserName(model.username);
 
         if (user.hasOwnProperty('id'))
             throw new UserError(errorCodes.USER_ALREADY_EXISTS);
@@ -53,7 +53,7 @@ export default class AuthBll {
     }
 
     public async login(model: ILogin): Promise<IUser> {
-        let user: IUser = await this.userDal.findByUserName(model.user_name);
+        let user: IUser = await this.userDal.findByUserName(model.username);
 
 
         if (Object.keys(user).length === 0)
@@ -77,7 +77,7 @@ export default class AuthBll {
 
     public async me(model: IUser): Promise<IUser> {
 
-        let user = await this.userDal.findByUserName(model.user_name);
+        let user = await this.userDal.findByUserName(model.username);
 
         return user;
     }

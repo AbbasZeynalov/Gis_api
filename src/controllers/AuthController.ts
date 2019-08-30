@@ -32,8 +32,8 @@ export default class AuthController extends BaseController {
 
             return {
                 id: 11,
-                first_name: 'test',
-                last_name: 'String',
+                firstname: 'test',
+                lastname: 'String',
                 email: 'String',
                 access_token: 'String'
             }

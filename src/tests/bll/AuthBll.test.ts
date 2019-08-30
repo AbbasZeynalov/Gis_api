@@ -32,7 +32,7 @@ describe.only('AuthBll ', async  () => {
     it('login success', async () => {
 
         let loginForm: ILogin = {
-            user_name: 'abbas',
+            username: 'abbas',
             password: '123456'
         };
 
@@ -49,7 +49,7 @@ describe.only('AuthBll ', async  () => {
 
         try {
             let loginForm: ILogin = {
-                user_name: 'abbas',
+                username: 'abbas',
                 password: '123456x'
             };
 
@@ -65,7 +65,7 @@ describe.only('AuthBll ', async  () => {
 
         try {
             let loginForm: ILogin = {
-                user_name: 'abbas',
+                username: 'abbas',
                 password: '123456'
             };
 

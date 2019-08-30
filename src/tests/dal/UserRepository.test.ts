@@ -28,8 +28,8 @@ describe('UserRepository ', async  () => {
         const result = await userRepo.findByUserName('abbas');
 
         assert.property(result, 'id');
-        assert.property(result, 'first_name');
-        assert.property(result, 'last_name');
+        assert.property(result, 'firstname');
+        assert.property(result, 'lastname');
     });
 
 });

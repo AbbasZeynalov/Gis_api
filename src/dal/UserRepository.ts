@@ -9,9 +9,13 @@ export default class UserRepository extends Repository<IUser> {
     async findByUserName(userName: string): Promise<IUser> {
 
         return await this.findOne({
-            user_name: userName,
+            username: userName,
             active: ON_OFF_STATUS.ON
-        }) || {} as IUser;
+            },
+            {
+                relations: ["userPermissions", "userPermissions.permissionOperation", "userPermissions.permissionEntity",]
+            }
+        ) || {} as IUser;
     }
 
     public async findById(id: number): Promise<IUser> {
