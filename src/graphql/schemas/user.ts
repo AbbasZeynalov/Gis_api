@@ -14,7 +14,7 @@ module.exports = makeExecutableSchema({
                 email: String!, 
                 password: String!, 
                 password_repeat: String!,
-                userPermissions: [PermissionInput!]
+                userPermissions: [PermissionInput!]!
             ): Me!
             
             login (username: String!, password: String!): Me!
