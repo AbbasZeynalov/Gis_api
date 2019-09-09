@@ -1,4 +1,4 @@
-var crypto = require('crypto'),
+let crypto = require('crypto'),
     algorithm = 'aes-256-ctr';
 
 /*let customerKey =  crypto.createHash("sha256")
@@ -12,24 +12,21 @@ export const cipher = (text:string, secret:string) => {
 
     const key = crypto.scryptSync(secret, 'salt', 32);
 
-    var cipher = crypto.createCipheriv(algorithm,key, iv)
-    var crypted = cipher.update(text,'utf8','hex')
-    console.log('c: ', crypted);
+    let cipher = crypto.createCipheriv(algorithm,key, iv);
+    let crypted = cipher.update(text,'utf8','hex');
     crypted += cipher.final('hex');
-    console.log('crypted: ',crypted);
+
     return crypted;
-}
+};
 
 
 export const deCipher = (text:string, secret:string) => {
 
     const key = crypto.scryptSync(secret, 'salt', 32);
-    var decipher = crypto.createDecipheriv(algorithm,key, iv)
-    var dec = decipher.update(text,'hex','utf8')
-
-    console.log('dec: ', dec);
+    let decipher = crypto.createDecipheriv(algorithm,key, iv);
+    let dec = decipher.update(text,'hex','utf8');
 
     dec += decipher.final('utf8');
-    console.log(dec);
+
     return dec;
-}
+};

@@ -6,16 +6,11 @@ import * as cors from "cors";
 import * as helmet from "helmet";
 import * as bodyParser from "body-parser";
 import "reflect-metadata";
-import {createConnection, getManager} from "typeorm";
+import {createConnection} from "typeorm";
 import GraphqlHttp from "./graphql/root/GraphqlHttp";
-const crypto = require('crypto');
-import {AuthPermission} from "./components/settings/AuthPermission";
-import {rejects} from "assert";
-import {deCipher} from "./utils/Crypto";
-import {SocketConnectOpts, TcpSocketConnectOpts} from "net";
-import {Customer} from "./core-settings/entity/Customer";
 
-var mysql = require('mysql');
+import {AuthPermission} from "./components/settings/AuthPermission";
+import Settings from "./core-settings/Settings";
 
 class App {
 
@@ -29,45 +24,17 @@ class App {
 
     public async init() {
 
-        let conn = await createConnection({
-            "type": "mysql",
-            "host": "localhost",
-            "port": 3306,
-            "username": "root",
-            "password": "",
-            "database": "gis_settings",
-            "synchronize": true,
-            "entities": [
-                "src/core-settings/**/*.ts"
-            ],
-        });
+        let settings = new Settings();
 
-        const entityManager = getManager();
-
-        const customer = await entityManager.findOne(Customer) || {} as Customer;
-
-        console.log('customer: ',customer);
-
-
-        let connection = deCipher(customer.db_conn_secret, customer.key);
-
-        console.log(connection);
-
-        await conn.close();
+        let connStr = await settings.getDbConnStr();
 
         this.config();
 
         await createConnection({
-            // "database": "gis",
-            // "url": "host=localhost,port=3306,database=gis,username=root,password=''",
-            "url": connection,
-            // "url": 'mysql://root:@localhost/gis',
+                "url": connStr,
+                // "url": 'mysql://root:@localhost/gis',
 
                 "type": "mysql",
-                // "host": "localhost",
-                // "port": 3306,
-                // "username": "root",
-                // "password": "",
                 "synchronize": true,
                 "logging": false,
                 "entities": [
