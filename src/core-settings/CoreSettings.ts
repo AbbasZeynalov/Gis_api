@@ -2,8 +2,18 @@ import {getCustomRepository} from "typeorm";
 import CustomerRepository from "./dal/CustomerRepository";
 import {deCipher} from "../utils/Crypto";
 import Db from "./config/Db";
+import Logger from "../utils/logger";
 
-export default class Settings extends Db {
+export default class CoreSettings extends Db {
+
+    logger: Logger;
+
+    constructor(logger: Logger) {
+
+        super();
+
+        this.logger = logger;
+    }
 
     async getDbConnStr(): Promise<any> {
 
@@ -14,7 +24,7 @@ export default class Settings extends Db {
 
             let customer = await customerRepository.getCustomer();
 
-            let connStr = deCipher(customer.db_conn_secret+'z', customer.key);
+            let connStr = deCipher(customer.db_conn_secret, customer.key);
 
             await this.close();
 
@@ -24,7 +34,7 @@ export default class Settings extends Db {
 
             await this.close();
 
-            console.log(e.message);
+            this.logger.error(e);
         }
     }
 }

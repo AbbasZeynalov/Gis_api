@@ -1,4 +1,4 @@
-import {Err} from "joi";
+import CoreSettings from "./core-settings/CoreSettings";
 
 require('dotenv').config();
 import * as express from "express";
@@ -10,7 +10,8 @@ import {createConnection} from "typeorm";
 import GraphqlHttp from "./graphql/root/GraphqlHttp";
 
 import {AuthPermission} from "./components/settings/AuthPermission";
-import Settings from "./core-settings/Settings";
+import {coreSettings} from "./config/Settings";
+import {getDbSettings} from "./config/main";
 
 class App {
 
@@ -24,30 +25,11 @@ class App {
 
     public async init() {
 
-        let settings = new Settings();
-
-        let connStr = await settings.getDbConnStr();
+        let connStr = await coreSettings.getDbConnStr();
 
         this.config();
 
-        await createConnection({
-                "url": connStr,
-                // "url": 'mysql://root:@localhost/gis',
-
-                "type": "mysql",
-                "synchronize": true,
-                "logging": false,
-                "entities": [
-                    "src/entity/**/*.ts"
-                ],
-                "migrations": [
-                    "src/migration/**/*.ts"
-                ],
-                "subscribers": [
-                    "src/subscriber/**/*.ts"
-                ]
-            }
-        );
+        await createConnection(getDbSettings(connStr));
 
         this.app.use('/graphql', cors(), AuthPermission, GraphqlHttp());
     }
