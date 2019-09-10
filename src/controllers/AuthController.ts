@@ -49,11 +49,11 @@ export default class AuthController extends BaseController {
      * @param args
      * @param context
      */
-    // @Authentication
-    // @Rbac({
-    //     [AUTH_ENTITIES.PARCEL]: [AUTH_OPERATIONS.CREATE, AUTH_OPERATIONS.DELETE],
-    //     [AUTH_ENTITIES.USER]: [AUTH_OPERATIONS.CREATE]
-    // })
+    @Authentication
+    @Rbac({
+        [AUTH_ENTITIES.PARCEL]: [AUTH_OPERATIONS.CREATE, AUTH_OPERATIONS.DELETE],
+        [AUTH_ENTITIES.USER]: [AUTH_OPERATIONS.CREATE]
+    })
     public async actionRegister(args: IUser, context: IContext) {
         try {
             let model = new User();

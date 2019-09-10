@@ -1,4 +1,4 @@
-let crypto = require('crypto'),
+const crypto = require('crypto'),
     algorithm = 'aes-256-ctr';
 
 /*let customerKey =  crypto.createHash("sha256")

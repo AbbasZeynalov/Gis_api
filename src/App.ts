@@ -10,7 +10,7 @@ import {createConnection} from "typeorm";
 import GraphqlHttp from "./graphql/root/GraphqlHttp";
 
 import {AuthPermission} from "./components/settings/AuthPermission";
-import {coreSettings} from "./config/Settings";
+import {coreSettings} from "./config/settings";
 import {getDbSettings} from "./config/main";
 
 class App {

@@ -1,6 +1,6 @@
 import {getCustomRepository} from "typeorm";
 import CustomerRepository from "./dal/CustomerRepository";
-import {deCipher} from "../utils/Crypto";
+import {deCipher} from "../utils/crypto";
 import Db from "./config/Db";
 import Logger from "../utils/logger";
 
