@@ -37,4 +37,9 @@ export default class CoreSettings extends Db {
             this.logger.error(e);
         }
     }
+
+    async getAppPort(): Promise<any> {
+
+        return 3200;
+    }
 }

@@ -23,7 +23,7 @@ class App {
         this.init();
     }
 
-    public async init() {
+    public async init(): Promise<any> {
 
         let connStr = await coreSettings.getDbConnStr();
 
@@ -32,6 +32,8 @@ class App {
         await createConnection(getDbSettings(connStr));
 
         this.app.use('/graphql', cors(), AuthPermission, GraphqlHttp());
+
+        return this;
     }
 
     private config(): void {
