@@ -1,4 +1,4 @@
-const { makeExecutableSchema } = require('graphql-tools');
+import { makeExecutableSchema } from 'graphql-tools';
 
 module.exports = makeExecutableSchema({
     typeDefs: `

@@ -1,7 +1,6 @@
 import {getManager} from "typeorm";
 import UserRepository from "../dal/UserRepository";
 import errorCodes from '../utils/response/errors';
-import LoginForm from "../entity/LoginForm";
 import {IUser} from "../models/entity/IUser";
 import UserError from "../utils/UserError";
 import * as bcrypt from 'bcryptjs';
