@@ -1,6 +1,7 @@
 import BaseController from "./BaseController";
 import Axios from "axios";
 import ModuleBll from "../bll/ModuleBll";
+import {IContext} from "../models/graphql/IGraphql";
 
 export default class ModuleController extends BaseController {
     protected bll: ModuleBll;
@@ -12,13 +13,26 @@ export default class ModuleController extends BaseController {
         this.actionGetModules = this.actionGetModules.bind(this);
     }
 
-    public async actionGetModules() {
+    public async actionGetModules(args: any, context: IContext) {
         try {
-            let modules: any = [];
 
-            await this.bll.getModules().then(res => modules = res.data.data.modules);
+            let pagination = {
+                offset: 0,
+                limit: 0
+            };
 
-            return modules;
+            if(args.hasOwnProperty('offset')) {
+                pagination.offset = args.offset;
+            }
+
+            if(args.hasOwnProperty('limit')) {
+                pagination.limit = args.limit;
+            }
+
+            let res = await this.bll.getModules(pagination);
+
+            return res.data.data.modules;
+
         } catch (e) {
 
             return this.catchError(e);
