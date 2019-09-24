@@ -19,5 +19,5 @@
 #   - npm install
 #   - npm test
 
-script: 
+script: test_script
     - "echo 123"
