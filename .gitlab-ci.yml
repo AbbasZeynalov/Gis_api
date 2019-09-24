@@ -25,6 +25,4 @@
 
 jom_name: 
   stage: test
-  tags:
-    - myserver
   script: *build_script
