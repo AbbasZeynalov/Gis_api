@@ -1,6 +1,15 @@
 import app from "./app";
-const PORT = 3200;
+import {coreSettings} from "./config/settings";
+let PORT: string | null = null;
 
-app.listen(PORT, () => {
+async function runServer() {
+
+    PORT = await coreSettings.getAppPort();
+
+    app.listen(PORT);
+}
+
+runServer().then(() => {
+
     console.log('🚀 Server listening on port ' + PORT);
 })

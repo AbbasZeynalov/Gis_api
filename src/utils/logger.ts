@@ -1,5 +1,4 @@
 const winston = require('winston');
-import {ExceptionHandler} from "winston";
 const {format} = require('winston');
 
 export default class Logger

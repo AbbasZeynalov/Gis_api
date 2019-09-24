@@ -18,6 +18,11 @@ export default function Authentication(target: BaseController, name: string, des
             try {
                 let authStr = ctx.req.get('Authorization');
 
+                if(!Boolean(authStr)) {
+
+                    throw new UnauthorizedError();
+                }
+
                 // TODO replace with jwt split
                 let token = authStr.split(' ')[1];
                 let userJWT = jwt.verify(token, process.env.AUTH_SECRET);
