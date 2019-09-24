@@ -19,5 +19,12 @@
 #   - npm install
 #   - npm test
 
-.script: &build_script
-    - "echo 123"
+.jom_name:
+  script: &build_script
+  - echo 123
+
+jom_name: 
+  stage: test
+  tags:
+    - myserver
+  script: *build_script
