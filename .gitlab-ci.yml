@@ -22,6 +22,7 @@
 .jom_name:
   script: &build_script
   - echo 123
+  - npm test
 
 jom_name: 
   stage: test
