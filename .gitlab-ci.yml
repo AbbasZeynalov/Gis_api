@@ -22,8 +22,6 @@
 .jom_name:
   script: &build_script
   - echo 123
-  tags:
-  - api-runner
 
 jom_name: 
   stage: test
