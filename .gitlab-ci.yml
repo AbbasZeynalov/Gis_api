@@ -34,5 +34,7 @@ Build App:
     
 Test App:
   stage: test
+  tags:
+    - api-runner
   script:
     - npm test
