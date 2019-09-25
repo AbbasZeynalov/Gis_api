@@ -20,9 +20,9 @@
 #   - npm test
 
 stages:
-  - build
-  - test
-  
+ - build
+ - test
+ 
   Build App:
   stage: build
   tags:
