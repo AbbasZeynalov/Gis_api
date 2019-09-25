@@ -28,3 +28,5 @@ jom_name:
   script: *build_script
   tags:
   - api-runner
+  variables:
+  PATH: "%USERPROFILE%\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code Insiders\bin;C:\Program Files\Git\bin;C:\Users\Administrator\AppData\Roaming\npm;C:\Users\Administrator\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Git\cmd"
