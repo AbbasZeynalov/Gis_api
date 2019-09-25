@@ -28,5 +28,5 @@
 jom_name: 
   stage: test
   script: *build_script
-   tags:
+  tags:
   - api-runner
