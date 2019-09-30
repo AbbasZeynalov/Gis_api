@@ -50,7 +50,7 @@ describe.only('AuthBll ', async  () => {
         try {
             let loginForm: ILogin = {
                 username: 'abbas',
-                password: '123456x'
+                password: '123456'
             };
 
             await bll.login(loginForm);
