@@ -25,7 +25,7 @@
 #   - node_modules/
 #   - dist
   
-  cache:
+cache:
   untracked: true
   key: "$CI_BUILD_REF_NAME"
   paths:
