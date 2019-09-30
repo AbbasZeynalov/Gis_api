@@ -28,6 +28,7 @@ cache:
 stages:
  - build
  - test
+ - deploy
  
 Build App:
   stage: build
@@ -44,3 +45,11 @@ Test App:
     - api-runner
   script:
     - npm test
+    
+Deploy App:
+  stage: deploy
+  tags:
+    - api-runner
+  environment:
+    name: dev
+    url: https://dev.gis.az
