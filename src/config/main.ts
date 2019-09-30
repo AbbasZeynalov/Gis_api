@@ -4,11 +4,9 @@ export const getDbSettings = (url: string): ConnectionOptions  => {
 
     return {
         "url": url,
-        // "url": 'mysql://root:@localhost/gis',
-
         "type": "mysql",
         "synchronize": true,
-        "logging": false,
+        "logging": true,
         "entities": [
             "src/entity/**/*.ts"
         ],
@@ -17,6 +15,6 @@ export const getDbSettings = (url: string): ConnectionOptions  => {
         ],
         "subscribers": [
             "src/subscriber/**/*.ts"
-        ]
+        ],
     }
-}
+};

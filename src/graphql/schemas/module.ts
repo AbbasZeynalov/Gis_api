@@ -4,6 +4,7 @@ module.exports = makeExecutableSchema({
     typeDefs: `
         type Query {
             modules(offset: Int, limit: Int): Modules
+            synchronizeModules: Synchronize
         }
         type Modules {
             items: [Module],
@@ -18,6 +19,9 @@ module.exports = makeExecutableSchema({
         }
         type ModuleVersion {
             version: String!
+        }
+        type Synchronize {
+            success: Boolean!
         }
     `
 });

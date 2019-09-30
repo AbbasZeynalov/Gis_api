@@ -16,14 +16,4 @@ export default class UserPermissionsRepository extends Repository<IUserPermissio
             .values(data)
             .execute();
     }
-
-    getPermissionEntities() {
-
-
-    }
-
-    getPermissionOperations() {
-
-
-    }
 }

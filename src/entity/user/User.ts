@@ -12,7 +12,6 @@ import {CustomBaseEntity} from "../CustomBaseEntity";
 @Entity()
 export class User extends CustomBaseEntity implements IUser, IEntityValidation {
 
-
     constructor(id?: number) {
         super();
         id && (this.id = id);

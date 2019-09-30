@@ -26,17 +26,13 @@ export class UserPermissions {
     permissionEntity: PermissionEntity;
 
     load(user: IUser) {
-
         let permissions: IUserPermissions[] = [];
 
         user.userPermissions.forEach((permission: IRequestUserPermissions) => {
-
             permission.entity_operations.forEach((operation: number) => {
-
                 let $this = {...this};
 
                 $this.user = user;
-
                 $this.permissionEntity = new PermissionEntity(permission.entity_id);
                 $this.permissionOperation = new PermissionOperation(operation);
 

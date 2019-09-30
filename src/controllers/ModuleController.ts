@@ -1,7 +1,9 @@
 import BaseController from "./BaseController";
-import Axios from "axios";
 import ModuleBll from "../bll/ModuleBll";
 import {IContext} from "../models/graphql/IGraphql";
+import {getCustomRepository} from "typeorm";
+import ModuleRepository from "../dal/ModuleRepository";
+import ModuleVersionRepository from "../dal/ModuleVersionRepository";
 
 export default class ModuleController extends BaseController {
     protected bll: ModuleBll;
@@ -9,8 +11,9 @@ export default class ModuleController extends BaseController {
     constructor() {
         super();
 
-        this.bll = new ModuleBll();
+        this.bll = new ModuleBll(getCustomRepository(ModuleRepository), getCustomRepository(ModuleVersionRepository));
         this.actionGetModules = this.actionGetModules.bind(this);
+        this.actionSynchronize = this.actionSynchronize.bind(this);
     }
 
     public async actionGetModules(args: any, context: IContext) {
@@ -34,7 +37,18 @@ export default class ModuleController extends BaseController {
             return res.data.data.modules;
 
         } catch (e) {
+            return this.catchError(e);
+        }
+    }
 
+    public async actionSynchronize() {
+        try {
+            await this.bll.synchronize();
+
+            return {
+                success: true
+            }
+        } catch (e) {
             return this.catchError(e);
         }
     }

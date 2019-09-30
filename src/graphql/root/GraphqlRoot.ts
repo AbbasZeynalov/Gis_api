@@ -10,10 +10,9 @@ const GraphqlRoot = () => {
         me: auth.me,
         register: auth.actionRegister,
         login: auth.actionLogin,
-        modules: module.actionGetModules
+        modules: module.actionGetModules,
+        synchronizeModules: module.actionSynchronize,
     }
 };
-
-
 
 export default GraphqlRoot;
