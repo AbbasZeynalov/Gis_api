@@ -57,7 +57,8 @@ describe.only('AuthBll ', async  () => {
         }
         catch (e) {
 
-            assert.equal(e.code, errors.INVALID_AUTHENTICATION_CREDENTIALS);
+            // assert.equal(e.code, errors.INVALID_AUTHENTICATION_CREDENTIALS);
+            assert.equal(e.code, 1111111);
         }
     })
 

@@ -19,28 +19,41 @@
 #   - npm install
 #   - npm test
 
+# cache:
+#   key: ${CI_COMMIT_REF_SLUG}
+#   paths:
+#   - node_modules/
+#   - dist
+  
 cache:
-  key: ${CI_COMMIT_REF_SLUG}
+  untracked: true
+  key: "$CI_BUILD_REF_NAME"
   paths:
-  - node_modules/
-  - dist
+    - node_modules/
+    - dist
+
   
 stages:
- - build
- - test
+ - build-and-test
+ - deploy
  
-Build App:
-  stage: build
+Build and test app:
+  stage: build-and-test
   tags:
     - api-runner
   before_script:
    - npm i
   script:
     - npm run build
+    - npm test
     
-Test App:
-  stage: test
+    
+Deploy App:
+  stage: deploy
   tags:
     - api-runner
   script:
     - npm test
+  environment:
+    name: dev
+    url: https://dev.gis.az
