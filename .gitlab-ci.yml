@@ -50,6 +50,8 @@ Deploy App:
   stage: deploy
   tags:
     - api-runner
+  script:
+    - npm test
   environment:
     name: dev
     url: https://dev.gis.az
