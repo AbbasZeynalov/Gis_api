@@ -50,14 +50,15 @@ describe.only('AuthBll ', async  () => {
         try {
             let loginForm: ILogin = {
                 username: 'abbas',
-                password: '123456'
+                password: '123456x'
             };
 
             await bll.login(loginForm);
         }
         catch (e) {
 
-            assert.equal(e.code, errors.INVALID_AUTHENTICATION_CREDENTIALS);
+            // assert.equal(e.code, errors.INVALID_AUTHENTICATION_CREDENTIALS);
+            assert.equal(e.code, 1111111);
         }
     })
 
