@@ -6,15 +6,15 @@ export const getDbSettings = (url: string): ConnectionOptions  => {
         "url": url,
         "type": "mysql",
         "synchronize": true,
-        "logging": true,
+        "logging": false,
         "entities": [
-            "src/entity/**/*.ts"
+            "../entity/*"
         ],
         "migrations": [
-            "src/migration/**/*.ts"
+            "../migration/*"
         ],
         "subscribers": [
-            "src/subscriber/**/*.ts"
+            "../subscriber/*"
         ],
     }
 };
