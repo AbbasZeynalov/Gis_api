@@ -7,6 +7,11 @@ export interface ICustomBaseEntity {
     created_by: number;
     updated_by: number;
     active: ON_OFF_STATUS;
-    // load: (obj: any) => any;
-    // schema: (obj: any) => any;
+    pagination: Pagination;
+}
+
+export interface Pagination {
+    total: number;
+    offset: number;
+    limit: number;
 }

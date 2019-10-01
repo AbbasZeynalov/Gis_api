@@ -1,6 +1,6 @@
 import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn} from "typeorm";
-import {ICustomBaseEntity} from "../models/entity/ICustomBaseEntity";
-import {ON_OFF_STATUS} from "../config/constant";
+import {ICustomBaseEntity, Pagination} from "../models/entity/ICustomBaseEntity";
+import {DEFAULT_PAGINATION_LIMIT, ON_OFF_STATUS} from "../config/constant";
 
 export class CustomBaseEntity implements ICustomBaseEntity {
 
@@ -25,4 +25,10 @@ export class CustomBaseEntity implements ICustomBaseEntity {
         default: ON_OFF_STATUS.ON
     })
     active: ON_OFF_STATUS;
+
+    pagination: Pagination = {
+        total: 0,
+        offset: 0,
+        limit: DEFAULT_PAGINATION_LIMIT
+    }
 }

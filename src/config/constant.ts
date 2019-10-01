@@ -14,3 +14,5 @@ export enum ON_OFF_STATUS {
     OFF = '0',
     ON = '1'
 }
+
+export const DEFAULT_PAGINATION_LIMIT = 10;

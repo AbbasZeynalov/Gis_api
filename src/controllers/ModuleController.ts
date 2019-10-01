@@ -4,6 +4,7 @@ import {IContext} from "../models/graphql/IGraphql";
 import {getCustomRepository} from "typeorm";
 import ModuleRepository from "../dal/ModuleRepository";
 import ModuleVersionRepository from "../dal/ModuleVersionRepository";
+import {Module} from "../entity/modules/Module";
 
 export default class ModuleController extends BaseController {
     protected bll: ModuleBll;
@@ -19,22 +20,22 @@ export default class ModuleController extends BaseController {
     public async actionGetModules(args: any, context: IContext) {
         try {
 
-            let pagination = {
-                offset: 0,
-                limit: 0
-            };
+            let model = new Module();
 
             if(args.hasOwnProperty('offset')) {
-                pagination.offset = args.offset;
+                model.pagination.offset = args.offset;
+
             }
 
             if(args.hasOwnProperty('limit')) {
-                pagination.limit = args.limit;
+                model.pagination.limit = args.limit;
             }
 
-            let res = await this.bll.getModules(pagination);
+            console.log('heeeeeeeeeeeeeeeeeeeee ')
 
-            return res.data.data.modules;
+            let data = await this.bll.getModules(model);
+
+            return model.loadReturnDataWithPagination(data);
 
         } catch (e) {
             return this.catchError(e);

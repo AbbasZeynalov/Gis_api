@@ -4,6 +4,7 @@ import {getManager} from "typeorm";
 import {Module} from "../entity/modules/Module";
 import {ModuleVersion} from "../entity/modules/ModuleVersion";
 import ModuleVersionRepository from "../dal/ModuleVersionRepository";
+import {IModule} from "../models/entity/IModule";
 
 export default class ModuleBll {
     public moduleDal: ModuleRepository;
@@ -14,7 +15,7 @@ export default class ModuleBll {
         this.moduleVersionDal = ModuleVersionRepository;
     }
 
-    public async getModules(pagination: any): Promise<any> {
+    public async getModulesFromCore(pagination: any): Promise<any> {
         let query = ` query {
               modules(offset: ${pagination.offset}, limit: ${pagination.limit}) {
                 items {
@@ -25,11 +26,20 @@ export default class ModuleBll {
                     }
                 },
                 totalCount
-              }
+              }getModulesFromCore
             }`;
 
         return await Axios.get('http://localhost:3300/graphql', {params: {query}})
     };
+
+    public async getModules(model: IModule): Promise<[IModule[], number]> {
+
+        return await this.moduleDal.findAndCount({
+            skip: model.pagination.offset,
+            take: model.pagination.limit,
+            relations: ["version"]
+        });
+    }
 
     public async synchronize() {
         let pagination = {
@@ -39,7 +49,7 @@ export default class ModuleBll {
 
         let model = new Module();
 
-        let response = await this.getModules(pagination);
+        let response = await this.getModulesFromCore(pagination);
         let modules = model.load(response.data.data.modules.items);
 
         await getManager().transaction(async transactionalEntityManager => {
