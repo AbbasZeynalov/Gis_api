@@ -31,8 +31,6 @@ export default class ModuleController extends BaseController {
                 model.pagination.limit = args.limit;
             }
 
-            console.log('heeeeeeeeeeeeeeeeeeeee ')
-
             let data = await this.bll.getModules(model);
 
             return model.loadReturnDataWithPagination(data);
