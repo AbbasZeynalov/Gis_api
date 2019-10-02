@@ -57,5 +57,3 @@ Deploy App:
   environment:
     name: dev
     url: https://dev.gis.az
-   only:
-    - master
