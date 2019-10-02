@@ -26,11 +26,9 @@
 #   - dist
   
 cache:
-  untracked: true
-  key: "$CI_BUILD_REF_NAME"
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - node_modules/
-    - dist
+  - node_modules/
 
   
 stages:
@@ -41,11 +39,16 @@ Build and test app:
   stage: build-and-test
   tags:
     - api-runner
+  artifacts:
+    paths:
+    - dist/
   before_script:
    - npm i
   script:
     - npm run build
     - npm test
+  only:
+    - master
     
     
 Deploy App:
@@ -57,3 +60,5 @@ Deploy App:
   environment:
     name: dev
     url: https://dev.gis.az
+   only:
+    - master
