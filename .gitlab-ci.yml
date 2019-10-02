@@ -50,7 +50,6 @@ Build and test app:
   only:
     - master
     
-    
 Deploy App:
   stage: deploy
   tags:
