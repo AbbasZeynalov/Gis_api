@@ -37,6 +37,8 @@ stages:
  
 Build and test app:
   stage: build-and-test
+  only:
+    - master
   tags:
     - api-runner
   artifacts:
@@ -50,6 +52,8 @@ Build and test app:
     
 Deploy App:
   stage: deploy
+  only:
+    - master
   tags:
     - api-runner
   script:
