@@ -47,8 +47,6 @@ Build and test app:
   script:
     - npm run build
     - npm test
-  only:
-    - master
     
 Deploy App:
   stage: deploy
