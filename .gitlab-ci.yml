@@ -40,6 +40,8 @@ Test future:
  stage: test-future
  except:
   - master
+ tags:
+  - api-runner
  before_script:
   - npm i
  script:
