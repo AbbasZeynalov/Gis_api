@@ -32,8 +32,18 @@ cache:
 
   
 stages:
+ - test-future
  - build-and-test
  - deploy
+ 
+Test future
+ stage: test-future
+ except:
+  - master
+ before_script:
+  - npm i
+ script:
+  - npm test
  
 Build and test app:
   stage: build-and-test
