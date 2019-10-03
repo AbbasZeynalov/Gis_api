@@ -42,6 +42,7 @@ Test future:
   - master
  tags:
   - api-runner
+ cache: {}
  before_script:
   - npm i
  script:
