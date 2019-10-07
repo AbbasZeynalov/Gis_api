@@ -71,6 +71,7 @@ Deploy App:
     - api-runner
   script:
     - npm test
+    - npm run build
   environment:
     name: dev
     url: https://dev.gis.az
