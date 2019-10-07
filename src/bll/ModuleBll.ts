@@ -26,7 +26,7 @@ export default class ModuleBll {
                     }
                 },
                 totalCount
-              }getModulesFromCore
+              }
             }`;
 
         return await Axios.get('http://localhost:3300/graphql', {params: {query}})
