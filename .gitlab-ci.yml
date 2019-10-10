@@ -72,6 +72,7 @@ Deploy App:
   script:
     - npm test
     - npm run build
+    - npm run prod
   environment:
     name: dev
     url: https://dev.gis.az
