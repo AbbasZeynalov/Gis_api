@@ -12,7 +12,7 @@
     "start": "ts-node src/server.ts",
     "dev:w": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec ts-node src/server.ts",
     "prod:start": "pm2 start ./dist/server.js --name api",
-    "prod:restart": "pm2 restart core-api",
+    "prod:restart": "pm2 restart api",
     "dev": "nodemon src/Server.ts"
   },
   "author": "",
