@@ -32,7 +32,8 @@ export default class CoreSettings extends Db {
         }
         catch (e) {
 
-            await this.close();
+            console.log(e);
+            // await this.close();
 
             this.logger.error(e);
         }

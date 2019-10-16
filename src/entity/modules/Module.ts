@@ -7,6 +7,8 @@ import {CustomBaseEntity} from "../CustomBaseEntity";
 import {IModule} from "../../models/entity/IModule";
 import {ModuleVersion} from "./ModuleVersion";
 import {IUser} from "../../models/entity/IUser";
+import {Pagination} from "../../models/entity/ICustomBaseEntity";
+import {DEFAULT_PAGINATION_LIMIT} from "../../config/constant";
 
 @Entity()
 export class Module extends CustomBaseEntity implements IModule {
@@ -24,6 +26,12 @@ export class Module extends CustomBaseEntity implements IModule {
 
     @OneToMany(type => ModuleVersion, moduleVersion => moduleVersion.module)
     version: ModuleVersion[];
+
+    pagination: Pagination = {
+        total: 0,
+        offset: 0,
+        limit: DEFAULT_PAGINATION_LIMIT
+    }
 
     public loadReturnDataWithPagination(data: any) {
 

@@ -26,9 +26,5 @@ export class CustomBaseEntity implements ICustomBaseEntity {
     })
     active: ON_OFF_STATUS;
 
-    pagination: Pagination = {
-        total: 0,
-        offset: 0,
-        limit: DEFAULT_PAGINATION_LIMIT
-    }
+
 }
