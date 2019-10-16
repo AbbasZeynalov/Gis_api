@@ -5,13 +5,13 @@
   "main": "server.js",
   "scripts": {
     "test": "mocha -r ts-node/register src/**/*.test.ts",
-    "build": "tsc",
+    "build-ts": "tsc",
+    "build": "webpack",
     "tsc:w": "tsc -w",
     "watch": "tsc -w && nodemon ./dist/server.js",
-    "devDist": "nodemon ./dist/server.js",
     "start": "ts-node src/server.ts",
     "dev:w": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec ts-node src/server.ts",
-    "prod:start": "pm2 start ./dist/server.js --name api",
+    "prod:start": "pm2 start ./build/bundle.js --name api",
     "prod:restart": "pm2 restart api",
     "dev": "nodemon src/Server.ts"
   },
