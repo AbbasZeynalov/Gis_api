@@ -26,7 +26,7 @@ export default class ModuleBll {
                     }
                 },
                 totalCount
-              }getModulesFromCore
+              }
             }`;
 
         return await Axios.get('http://localhost:3300/graphql', {params: {query}})
@@ -50,21 +50,24 @@ export default class ModuleBll {
         let model = new Module();
 
         let response = await this.getModulesFromCore(pagination);
-        let modules = model.load(response.data.data.modules.items);
 
-        await getManager().transaction(async transactionalEntityManager => {
+        if (response.status === 200) {
+            let modules = model.load(response.data.data.modules.items);
 
-            for (let i = 0; i < modules.length; i++) {
-                let currentModules = modules[i];
-                let moduleVersion = new ModuleVersion();
-                await transactionalEntityManager.save(currentModules);
+            await getManager().transaction(async transactionalEntityManager => {
 
-                if (currentModules.version.length > 0) {
-                    let versions = moduleVersion.load(currentModules);
+                for (let i = 0; i < modules.length; i++) {
+                    let currentModules = modules[i];
+                    let moduleVersion = new ModuleVersion();
+                    await transactionalEntityManager.save(currentModules);
 
-                    this.moduleVersionDal.saveModuleVersions(versions)
+                    if (currentModules.version.length > 0) {
+                        let versions = moduleVersion.load(currentModules);
+
+                        this.moduleVersionDal.saveModuleVersions(versions)
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 };
