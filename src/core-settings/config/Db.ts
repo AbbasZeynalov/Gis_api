@@ -1,4 +1,5 @@
 import {Connection, createConnection} from "typeorm"
+import {Customer} from "../entity/Customer";
 const path = require('path');
 
 
@@ -9,7 +10,7 @@ export default class Db {
     async connect() {
 
         // @ts-ignore
-        let appDir = path.dirname(require.main.filename);
+        // let appDir = path.dirname(require.main.filename);
 
         this._connection = await createConnection({
             "type": "mysql",
@@ -20,7 +21,8 @@ export default class Db {
             "database": "gis_settings",
             "synchronize": true,
             "entities": [
-                appDir+"/core-settings/entity/*"
+                // appDir+"/core-settings/entity/*"
+                Customer
             ],
         });
 
