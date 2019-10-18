@@ -19,7 +19,8 @@ export default class ModuleBll {
         let query = ` query {
               modules(offset: ${pagination.offset}, limit: ${pagination.limit}) {
                 items {
-                    name, 
+                    name,
+                    uuid, 
                     url,
                     version {
                         version
@@ -54,20 +55,54 @@ export default class ModuleBll {
         if (response.status === 200) {
             let modules = model.load(response.data.data.modules.items);
 
-            await getManager().transaction(async transactionalEntityManager => {
+            await this.saveModules(modules)
+        }
+    }
 
-                for (let i = 0; i < modules.length; i++) {
-                    let currentModules = modules[i];
-                    let moduleVersion = new ModuleVersion();
-                    await transactionalEntityManager.save(currentModules);
+    private async saveModules(modules: any) {
+        let existModules = await this.moduleDal.getModules();
 
-                    if (currentModules.version.length > 0) {
-                        let versions = moduleVersion.load(currentModules);
+        await getManager().transaction(async transactionalEntityManager => {
 
-                        this.moduleVersionDal.saveModuleVersions(versions)
-                    }
+            for (let newModule of modules) {
+                let existModule = existModules.find((existModule) => newModule.uuid === existModule.uuid);
+                let isUpdate = existModule &&
+                            (existModule.name !== newModule.name  ||
+                            existModule.url !== newModule.url ||
+                            (existModule.version && existModule.version.length) != newModule.version.length);
+
+                if (!existModule) {
+                    await this.saveNewModule(newModule, transactionalEntityManager);
+
+                } else if (isUpdate){
+                    await this.updateModule(existModule, newModule, transactionalEntityManager)
                 }
-            });
+            }
+        });
+    }
+
+    private async saveNewModule(newModule: IModule, transactionalEntityManager: any) {
+        let moduleVersion = new ModuleVersion();
+        await transactionalEntityManager.save(newModule);
+
+        if (newModule.version.length > 0) {
+            let versions = moduleVersion.load(newModule);
+
+            await this.moduleVersionDal.saveModuleVersions(versions)
+        }
+    }
+
+    private async updateModule(existModule: IModule, newModule: IModule, transactionalEntityManager: any) {
+        existModule.name = newModule.name;
+        existModule.url = newModule.url;
+        await transactionalEntityManager.save(existModule);
+
+        if ((existModule.version && existModule.version.length) != newModule.version.length) {
+            let moduleVersion = new ModuleVersion();
+            existModule.version = newModule.version;
+            let newVersions = moduleVersion.load(existModule);
+
+            await this.moduleVersionDal.updateModuleVersions(newVersions, existModule.id)
         }
     }
 };

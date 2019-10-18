@@ -22,6 +22,9 @@ export class Module extends CustomBaseEntity implements IModule {
     name: string;
 
     @Column()
+    uuid: string;
+
+    @Column()
     url: string;
 
     @OneToMany(type => ModuleVersion, moduleVersion => moduleVersion.module)
@@ -48,6 +51,7 @@ export class Module extends CustomBaseEntity implements IModule {
         items.forEach((item: any) => {
             let $this = new Module();
             $this.name = item.name;
+            $this.uuid = item.uuid;
             $this.url = item.url;
             $this.version = item.version;
 

@@ -15,4 +15,23 @@ export default class ModuleVersionRepository extends Repository<IModuleVersion>{
             .values(data)
             .execute();
     }
+
+    async updateModuleVersions(newVersions: any[], existModuleId: number, transactionalEntityManager?: EntityManager) {
+
+        let connection = transactionalEntityManager ? transactionalEntityManager : getConnection();
+
+        await connection
+            .createQueryBuilder()
+            .delete()
+            .from(ModuleVersion)
+            .where("module_id = :id", { id: existModuleId })
+            .execute();
+
+        return connection
+            .createQueryBuilder()
+            .insert()
+            .into(ModuleVersion)
+            .values(newVersions)
+            .execute();
+    }
 }

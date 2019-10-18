@@ -8,7 +8,10 @@ export default class ModuleRepository extends Repository<IModule>{
     async getModules(): Promise<IModule[]> {
 
         return  this.find({
-            active: ON_OFF_STATUS.ON
+            where: {
+                active: ON_OFF_STATUS.ON
+            },
+            relations: ["version"]
         });
     }
 }
