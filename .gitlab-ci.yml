@@ -24,7 +24,11 @@
 #   paths:
 #   - node_modules/
 #   - dist
-  
+
+variables:
+  GIT_CLONE_PATH: "C:\\GitLab-Runner/builds/api"
+
+
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
@@ -54,13 +58,9 @@ Build and test app:
     - master
   tags:
     - api-runner
-  artifacts:
-    paths:
-    - dist/
   before_script:
    - npm i
   script:
-    - npm run build
     - npm test
     
 Deploy App:
@@ -69,9 +69,13 @@ Deploy App:
     - master
   tags:
     - api-runner
+  artifacts:
+    paths:
+      - build/
   script:
     - npm test
     - npm run build
+    - copy build/bundle.js /gis-app/api/build/bundle.js
     - npm run prod:restart
   environment:
     name: dev
