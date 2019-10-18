@@ -24,7 +24,11 @@
 #   paths:
 #   - node_modules/
 #   - dist
-  
+
+variables:
+  GIT_CLONE_PATH: "C:\\GitLab-Runner/builds/api"
+
+
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
