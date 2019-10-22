@@ -21,6 +21,8 @@ export default class ModuleBll {
                 items {
                     name,
                     uuid, 
+                    git_deploy_token_username, 
+                    git_deploy_token_password, 
                     url,
                     version {
                         version
@@ -67,9 +69,13 @@ export default class ModuleBll {
             for (let newModule of modules) {
                 let existModule = existModules.find((existModule) => newModule.uuid === existModule.uuid);
                 let isUpdate = existModule &&
-                            (existModule.name !== newModule.name  ||
-                            existModule.url !== newModule.url ||
-                            (existModule.version && existModule.version.length) != newModule.version.length);
+                            (
+                                existModule.name !== newModule.name  ||
+                                existModule.url !== newModule.url ||
+                                (existModule.version && existModule.version.length) != newModule.version.length ||
+                                existModule.git_deploy_token_username != newModule.git_deploy_token_username ||
+                                existModule.git_deploy_token_password != newModule.git_deploy_token_password
+                            );
 
                 if (!existModule) {
                     await this.saveNewModule(newModule, transactionalEntityManager);
@@ -95,6 +101,8 @@ export default class ModuleBll {
     private async updateModule(existModule: IModule, newModule: IModule, transactionalEntityManager: any) {
         existModule.name = newModule.name;
         existModule.url = newModule.url;
+        existModule.git_deploy_token_username = newModule.git_deploy_token_username;
+        existModule.git_deploy_token_password = newModule.git_deploy_token_password;
         await transactionalEntityManager.save(existModule);
 
         if ((existModule.version && existModule.version.length) != newModule.version.length) {

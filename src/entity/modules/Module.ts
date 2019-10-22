@@ -25,6 +25,12 @@ export class Module extends CustomBaseEntity implements IModule {
     uuid: string;
 
     @Column()
+    git_deploy_token_username: string;
+
+    @Column()
+    git_deploy_token_password: string;
+
+    @Column()
     url: string;
 
     @OneToMany(type => ModuleVersion, moduleVersion => moduleVersion.module)
@@ -52,6 +58,8 @@ export class Module extends CustomBaseEntity implements IModule {
             let $this = new Module();
             $this.name = item.name;
             $this.uuid = item.uuid;
+            $this.git_deploy_token_username = item.git_deploy_token_username;
+            $this.git_deploy_token_password = item.git_deploy_token_password;
             $this.url = item.url;
             $this.version = item.version;
 

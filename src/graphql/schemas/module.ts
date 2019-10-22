@@ -14,6 +14,8 @@ module.exports = makeExecutableSchema({
             id: ID!,
             name: String!
             uuid: String!,
+            git_deploy_token_username: String!,
+            git_deploy_token_password: String!,
             url: String!,
             total: Int!,
             version: [ModuleVersion]
