@@ -8,13 +8,17 @@ import {Module} from "../entity/modules/Module";
 
 export default class ModuleController extends BaseController {
     protected bll: ModuleBll;
+    protected dal: ModuleRepository;
 
     constructor() {
         super();
 
         this.bll = new ModuleBll(getCustomRepository(ModuleRepository), getCustomRepository(ModuleVersionRepository));
+        this.dal = new ModuleRepository();
+
         this.actionGetModules = this.actionGetModules.bind(this);
         this.actionSynchronize = this.actionSynchronize.bind(this);
+        this.actionActivateModule = this.actionActivateModule.bind(this);
     }
 
     public async actionGetModules(args: any, context: IContext) {
@@ -47,6 +51,15 @@ export default class ModuleController extends BaseController {
             return {
                 success: true
             }
+        } catch (e) {
+            return this.catchError(e);
+        }
+    }
+
+    public async actionActivateModule(args: any, context: IContext) {
+        try {
+           await this.dal.activateModule(args.id);
+
         } catch (e) {
             return this.catchError(e);
         }

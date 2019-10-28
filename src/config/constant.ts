@@ -15,4 +15,9 @@ export enum ON_OFF_STATUS {
     ON = '1'
 }
 
+export enum INSTALL_STATUS {
+    ACTIVE = '1',
+    DEACTIVE = '0'
+}
+
 export const DEFAULT_PAGINATION_LIMIT = 10;

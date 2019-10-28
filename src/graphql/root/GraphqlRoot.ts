@@ -12,6 +12,7 @@ const GraphqlRoot = () => {
         login: auth.actionLogin,
         modules: module.actionGetModules,
         synchronizeModules: module.actionSynchronize,
+        activateModule: module.actionActivateModule,
     }
 };
 

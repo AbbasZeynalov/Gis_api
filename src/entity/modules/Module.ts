@@ -8,7 +8,7 @@ import {IModule} from "../../models/entity/IModule";
 import {ModuleVersion} from "./ModuleVersion";
 import {IUser} from "../../models/entity/IUser";
 import {Pagination} from "../../models/entity/ICustomBaseEntity";
-import {DEFAULT_PAGINATION_LIMIT} from "../../config/constant";
+import {DEFAULT_PAGINATION_LIMIT, INSTALL_STATUS, ON_OFF_STATUS} from "../../config/constant";
 
 @Entity()
 export class Module extends CustomBaseEntity implements IModule {
@@ -36,11 +36,18 @@ export class Module extends CustomBaseEntity implements IModule {
     @OneToMany(type => ModuleVersion, moduleVersion => moduleVersion.module)
     version: ModuleVersion[];
 
+    @Column({
+        type: "enum",
+        enum: [INSTALL_STATUS.DEACTIVE, INSTALL_STATUS.ACTIVE],
+        default: INSTALL_STATUS.DEACTIVE
+    })
+    install: INSTALL_STATUS;
+
     pagination: Pagination = {
         total: 0,
         offset: 0,
         limit: DEFAULT_PAGINATION_LIMIT
-    }
+    };
 
     public loadReturnDataWithPagination(data: any) {
 
@@ -50,9 +57,9 @@ export class Module extends CustomBaseEntity implements IModule {
         }
     }
 
-    load(items: any) {
+    load(items: IModule[]) {
 
-        let moduleArr: any[] = [];
+        let moduleArr: IModule[] = [];
 
         items.forEach((item: any) => {
             let $this = new Module();
